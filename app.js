@@ -2,10 +2,21 @@ const express = require("express");
 const app = express();
 const PORT = 5000;
 
-app.get("/", (req, res) => {
-  res.send("Hello Dunia");
+const middleHandle = (req, res, next) => {
+  console.log("Walah Middleware");
+  next();
+};
+
+app.get("/", middleHandle, (req, res) => {
+  console.log("Boom!!");
+  res.send("Landing");
+});
+
+app.get("/langs", (req, res) => {
+  console.log("Not Boom!!");
+  res.send("In the langs in the baga buga");
 });
 
 app.listen(PORT, () => {
-  console.log("Server is running on", PORT);
+  console.log("Ekhane run hoitese: ", PORT);
 });
