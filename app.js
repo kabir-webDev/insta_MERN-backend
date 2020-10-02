@@ -1,20 +1,20 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
 const PORT = 5000;
+const { MONGOURI } = require("./keys");
 
-const middleHandle = (req, res, next) => {
-  console.log("Walah Middleware");
-  next();
-};
-
-app.get("/", middleHandle, (req, res) => {
-  console.log("Boom!!");
-  res.send("Landing");
+mongoose.connect(MONGOURI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
 });
 
-app.get("/langs", (req, res) => {
-  console.log("Not Boom!!");
-  res.send("In the langs in the baga buga");
+mongoose.connection.on("connected", () => {
+  console.log("Connected to MongoDB");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.log("err connecting", err);
 });
 
 app.listen(PORT, () => {
